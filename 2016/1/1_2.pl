@@ -4,9 +4,15 @@ use strict;
 use warnings;
 
 use Switch;
-use Data::Dumper;
 
-die "usage: perl $0 <input> (part [1|2] default is 2)" if (scalar @ARGV != 1 && scalar @ARGV != 2);
+sub end {
+    my ($sX, $sY) = @_;
+    print "Blocks North/South: $sX , Blocks East/West: $sY\n";
+    print "Total Distance ", abs($sX) + abs($sY) , "\n";
+    exit;
+}
+
+die "usage: perl $0 <input> (part [1|2])" if (scalar @ARGV != 1 && scalar @ARGV != 2);
 
 my ($sInput, $sPart) = @ARGV;
 
@@ -14,14 +20,16 @@ $sPart = 2 if(! defined $sPart);
 
 open (my $rInputHandle ,'<', $sInput) or die "couldn't open file for read, $!";
 
+#all on one line
 my $sInstructionSet = <$rInputHandle>;
-
 close($rInputHandle);
 
+#remove trailing newline
 chomp $sInstructionSet;
-
+#get rid of whitespace
 $sInstructionSet =~ s/\s+//g;
 
+#split up the instructions
 my @aInstructions = split (/,/, $sInstructionSet);
 
 my $sX = 0;
@@ -30,9 +38,8 @@ my $sDirection = 0; # 0 == North, 1 == East, 2 == South, 3 == West.
 
 my %hHistory = ();
 
-
 foreach my $sCommand (@aInstructions){
-    
+    #skip whitespace only commands (could be at the end)
     next if $sCommand =~ /^\s+$/;
 
     my ($sTurn, $sBlocks) = $sCommand =~ /(R|L)(\d+)/; 
@@ -47,11 +54,9 @@ foreach my $sCommand (@aInstructions){
     #new direction
     $sDirection = $sDirection % 4;
 
-
     my $sNewX = $sX;
     my $sNewY = $sY;
     for (my $sI = 0; $sI < $sBlocks; $sI++){
-                
         switch($sDirection){
             #North
             case 0 {
@@ -60,17 +65,14 @@ foreach my $sCommand (@aInstructions){
             #East
             case 1 {
                 $sNewY++;
-                
             }
             #South
             case 2 {
                 $sNewX--;
-                
             }
             #West
             case 3 {
                 $sNewY--;
-                
             }
             else { 
                 die "we shouldn't get here: $sDirection";
@@ -79,9 +81,7 @@ foreach my $sCommand (@aInstructions){
         
         if(exists $hHistory{$sNewX}{$sNewY} && $sPart == 2){
             print "We've been here before!\n";
-            print "Blocks North/South: $sNewX , Blocks East/West: $sNewY\n";
-            print "Total Distance ", abs($sNewX) + abs($sNewY) , "\n";
-            exit;
+            end($sNewX, $sNewY);
         }
         $hHistory{$sNewX}{$sNewY} = 1;
     }
@@ -89,5 +89,4 @@ foreach my $sCommand (@aInstructions){
     $sY = $sNewY;
 }
 
-print "Blocks North/South: $sX , Blocks East/West: $sY\n";
-print "Total Distance ", abs($sX) + abs($sY) , "\n";
+end($sX,$sY);
