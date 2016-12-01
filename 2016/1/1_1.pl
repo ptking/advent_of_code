@@ -5,9 +5,10 @@ use warnings;
 
 use Switch;
 
-my $sInput = shift;
 
 die "usage: perl 1_1.pl <input>" if (scalar @ARGV != 1);
+
+my $sInput = shift;
 
 open (my $rInputHandle ,'<', $sInput) or die "couldn't open file for read, $!";
 
