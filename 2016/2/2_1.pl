@@ -13,15 +13,11 @@ use Switch;
 sub initKeyPad1 {
     my ($raPad) = @_;
 
-    $$raPad[0][0] = 7;
-    $$raPad[1][0] = 8;
-    $$raPad[2][0] = 9;
-    $$raPad[0][1] = 4;
-    $$raPad[1][1] = 5;
-    $$raPad[2][1] = 6;
-    $$raPad[0][2] = 1;
-    $$raPad[1][2] = 2;
-    $$raPad[2][2] = 3;
+    @$raPad = (
+        [7, 4, 1],
+        [8, 5, 2],
+        [9, 6, 3]
+        );
 }
 
 # Y
@@ -34,37 +30,17 @@ sub initKeyPad1 {
 #  ----------
 #   0 1 2 3 4
 #  
-
 sub initKeyPad2 {
     my ($raPad) = @_;
 
-    $$raPad[0][0] = undef;
-    $$raPad[1][0] = undef;
-    $$raPad[2][0] = 'D';
-    $$raPad[3][0] = undef;
-    $$raPad[4][0] = undef;
-    $$raPad[0][1] = undef;
-    $$raPad[1][1] = 'A';
-    $$raPad[2][1] = 'B';
-    $$raPad[3][1] = 'C';
-    $$raPad[4][1] = undef;
-    $$raPad[0][2] = 5;
-    $$raPad[1][2] = 6;
-    $$raPad[2][2] = 7;
-    $$raPad[3][2] = 8;
-    $$raPad[4][2] = 9;
-    $$raPad[0][3] = undef;
-    $$raPad[1][3] = 2;
-    $$raPad[2][3] = 3;
-    $$raPad[3][3] = 4;
-    $$raPad[4][3] = undef;
-    $$raPad[0][4] = undef;
-    $$raPad[1][4] = undef;
-    $$raPad[2][4] = 1;
-    $$raPad[3][4] = undef;
-    $$raPad[4][4] = undef;
+    @$raPad = (
+        [undef,undef,  5  ,undef,undef],
+        [undef, 'A' ,  6  ,  2  ,undef],
+        [ 'D' , 'B' ,  7  ,  3  ,  1  ],
+        [undef, 'C' ,  8  ,  4  ,undef],
+        [undef,undef,  9  ,undef,undef]
+        );
 }
-
 
 die "usage: perl $0 <input> (part [1|2])" if (scalar @ARGV != 1 && scalar @ARGV != 2);
 
@@ -87,8 +63,10 @@ else{
     # start at key 5
     $sX = 1;
     $sY = 1;
-
 }
+
+use Data::Dumper;
+print Dumper(\@aKeyPad);
 
 # all rows/columns should be the same length
 my $sYSize = scalar @{$aKeyPad[0]};
@@ -96,7 +74,6 @@ my $sXSize = scalar @aKeyPad;
 
 print "Size: $sYSize X $sXSize\n";
 print "Starting at: $aKeyPad[$sX][$sY]\n";
-
 
 while (defined ( my $sLine = <$rInputHandle>)){
     chomp $sLine;
