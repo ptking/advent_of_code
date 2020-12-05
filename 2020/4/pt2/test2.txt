@@ -1,0 +1,14 @@
+cid:288
+hcl:77241f
+hgt:157cm byr:1956 pid:587115461 iyr:2016 ecl:lzr
+eyr:2034
+
+hcl:5307c9 ecl:#cc4aff
+pid:#d80d30
+cid:224 hgt:72cm byr:2025 eyr:2039 iyr:2025
+
+eyr:2027 byr:2015
+hgt:184 hcl:98fb9d pid:58151347
+iyr:2029
+
+hgt:183cm cid:187 byr:2019 ecl:xry iyr:2013 pid:164cm hcl:#18171d eyr:2021
